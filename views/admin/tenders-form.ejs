@@ -1,0 +1,38 @@
+<%- include('../partials/admin-header') %>
+
+<div class="admin-card" style="max-width:720px;">
+  <form method="POST" action="<%= isEdit ? '/admin/tenders/' + tender.id : '/admin/tenders' %>">
+    <label for="title">عنوان المناقصة</label>
+    <input type="text" name="title" id="title" value="<%= tender.title || '' %>" required />
+
+    <label for="description">تفاصيل المناقصة</label>
+    <textarea name="description" id="description" style="min-height:150px;" required><%= tender.description || '' %></textarea>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        <label for="booklet_price">قيمة الكراسة (ج.م)</label>
+        <input type="number" step="0.01" name="booklet_price" id="booklet_price" value="<%= tender.booklet_price || '' %>" />
+      </div>
+      <div>
+        <label for="initial_insurance">التأمين الابتدائي (ج.م)</label>
+        <input type="number" step="0.01" name="initial_insurance" id="initial_insurance" value="<%= tender.initial_insurance || '' %>" />
+      </div>
+    </div>
+
+    <label for="opening_session_at">تاريخ جلسة فتح المظاريف</label>
+    <input type="date" name="opening_session_at" id="opening_session_at"
+      value="<%= tender.opening_session_at ? new Date(tender.opening_session_at).toISOString().slice(0,10) : '' %>" />
+
+    <label style="display:flex;align-items:center;gap:8px;font-weight:700;">
+      <input type="checkbox" name="is_published" style="width:auto;margin:0;" <%= (tender.is_published === undefined || tender.is_published) ? 'checked' : '' %> />
+      نشر المناقصة مباشرة
+    </label>
+
+    <button type="submit" class="btn btn-primary" style="margin-top:10px;">
+      <i class="bi bi-check-lg"></i> <%= isEdit ? 'حفظ التعديلات' : 'إضافة المناقصة' %>
+    </button>
+    <a href="/admin/tenders" class="btn" style="border:1px solid var(--line);color:#555;">إلغاء</a>
+  </form>
+</div>
+
+<%- include('../partials/admin-footer') %>

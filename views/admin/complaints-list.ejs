@@ -1,0 +1,31 @@
+<%- include('../partials/admin-header') %>
+
+<div class="admin-card">
+  <table class="admin-table">
+    <thead><tr><th>الاسم</th><th>التليفون</th><th>الموضوع</th><th>التاريخ</th><th>الحالة</th></tr></thead>
+    <tbody>
+      <% if (complaints.length === 0) { %>
+        <tr><td colspan="5">لا توجد شكاوى بعد.</td></tr>
+      <% } %>
+      <% complaints.forEach(function(c) { %>
+        <tr>
+          <td><%= c.full_name %></td>
+          <td><%= c.phone %></td>
+          <td><%= c.subject %></td>
+          <td><%= new Date(c.created_at).toLocaleDateString('ar-EG') %></td>
+          <td>
+            <form action="/admin/complaints/<%= c.id %>/status" method="POST">
+              <select name="status" onchange="this.form.submit()">
+                <option value="new" <%= c.status === 'new' ? 'selected' : '' %>>جديدة</option>
+                <option value="in_progress" <%= c.status === 'in_progress' ? 'selected' : '' %>>قيد المعالجة</option>
+                <option value="resolved" <%= c.status === 'resolved' ? 'selected' : '' %>>تم الحل</option>
+              </select>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/admin-footer') %>

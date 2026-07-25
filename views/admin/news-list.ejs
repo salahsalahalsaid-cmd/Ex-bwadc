@@ -1,0 +1,33 @@
+<%- include('../partials/admin-header') %>
+
+<div style="margin-bottom:18px;">
+  <a href="/admin/news/new" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> إضافة خبر جديد</a>
+</div>
+
+<div class="admin-card">
+  <table class="admin-table">
+    <thead>
+      <tr><th>العنوان</th><th>تاريخ النشر</th><th>الحالة</th><th>إجراءات</th></tr>
+    </thead>
+    <tbody>
+      <% if (news.length === 0) { %>
+        <tr><td colspan="4">لا توجد أخبار مضافة بعد.</td></tr>
+      <% } %>
+      <% news.forEach(function(n) { %>
+        <tr>
+          <td><%= n.title %></td>
+          <td><%= new Date(n.published_at).toLocaleDateString('ar-EG') %></td>
+          <td><span class="badge <%= n.is_published ? 'badge-on' : 'badge-off' %>"><%= n.is_published ? 'منشور' : 'مسودة' %></span></td>
+          <td class="actions-row">
+            <a href="/admin/news/<%= n.id %>/edit" class="btn btn-dark btn-sm">تعديل</a>
+            <form action="/admin/news/<%= n.id %>/delete" method="POST" onsubmit="return confirm('متأكد من حذف الخبر؟');">
+              <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/admin-footer') %>

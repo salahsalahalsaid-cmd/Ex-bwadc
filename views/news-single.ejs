@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+
+<section class="section">
+  <div class="container" style="max-width: 780px;">
+    <span class="card-date"><%= new Date(article.published_at).toLocaleDateString('ar-EG', { year:'numeric', month:'long', day:'numeric' }) %></span>
+    <h1 style="color:var(--nile-900); margin: 8px 0 24px;"><%= article.title %></h1>
+    <% if (article.cover_image) { %>
+      <img src="<%= article.cover_image %>" alt="<%= article.title %>" style="border-radius:10px; margin-bottom:26px;" />
+    <% } %>
+    <div style="font-size:1.05rem; line-height:2;">
+      <%- article.body.replace(/\n/g, '<br>') %>
+    </div>
+    <div style="margin-top:36px;">
+      <a href="/news" class="btn btn-outline" style="color:#13293d;border-color:#e4e1d8;"><i class="bi bi-arrow-right"></i> العودة لكل الأخبار</a>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,57 @@
+<%- include('../partials/admin-header') %>
+
+<div class="admin-card" style="margin-bottom:20px;">
+  <h3 style="margin-top:0;color:var(--nile-900);">إضافة إحصائية جديدة</h3>
+  <form method="POST" action="/admin/statistics">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px;">
+      <div>
+        <label for="label">اسم الإحصائية</label>
+        <input type="text" name="label" id="label" required />
+      </div>
+      <div>
+        <label for="value">القيمة</label>
+        <input type="text" name="value" id="value" required />
+      </div>
+      <div>
+        <label for="unit">الوحدة</label>
+        <input type="text" name="unit" id="unit" placeholder="فرع / معمل / مشترك" />
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        <label for="group_name">المجموعة (اختياري)</label>
+        <input type="text" name="group_name" id="group_name" />
+      </div>
+      <div>
+        <label for="sort_order">ترتيب الظهور</label>
+        <input type="number" name="sort_order" id="sort_order" value="0" />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary"><i class="bi bi-plus-lg"></i> إضافة</button>
+  </form>
+</div>
+
+<div class="admin-card">
+  <table class="admin-table">
+    <thead><tr><th>الإحصائية</th><th>القيمة</th><th>الوحدة</th><th>إجراءات</th></tr></thead>
+    <tbody>
+      <% if (stats.length === 0) { %>
+        <tr><td colspan="4">لا توجد إحصائيات مضافة بعد.</td></tr>
+      <% } %>
+      <% stats.forEach(function(s) { %>
+        <tr>
+          <td><%= s.label %></td>
+          <td><%= s.value %></td>
+          <td><%= s.unit %></td>
+          <td>
+            <form action="/admin/statistics/<%= s.id %>/delete" method="POST" onsubmit="return confirm('متأكد من الحذف؟');">
+              <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/admin-footer') %>

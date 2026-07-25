@@ -1,0 +1,16 @@
+<%- include('../partials/admin-header') %>
+
+<div class="stat-boxes">
+  <div class="stat-box"><div class="num"><%= counts.news %></div><div class="lbl">إجمالي الأخبار</div></div>
+  <div class="stat-box"><div class="num"><%= counts.tenders %></div><div class="lbl">إجمالي المناقصات</div></div>
+  <div class="stat-box"><div class="num"><%= counts.services %></div><div class="lbl">إجمالي الخدمات</div></div>
+  <div class="stat-box"><div class="num"><%= counts.complaints %></div><div class="lbl">شكاوى جديدة</div></div>
+</div>
+
+<div class="admin-card">
+  <h3 style="margin-top:0;color:var(--nile-900);">أهلًا بيك 👋</h3>
+  <p style="color:#555;">من هنا تقدر تدير محتوى الموقع بالكامل: تضيف أخبار ومناقصات، تعدّل الخدمات والإحصائيات، وتتابع شكاوى المواطنين، من غير ما تحتاج تلمس كود الموقع.</p>
+  <p style="color:#555;">لو محتاج تعمل تحديث (أبجريد) للموقع نفسه، راجع ملف <code>README.md</code> في مجلد المشروع - فيه شرح خطوة بخطوة.</p>
+</div>
+
+<%- include('../partials/admin-footer') %>

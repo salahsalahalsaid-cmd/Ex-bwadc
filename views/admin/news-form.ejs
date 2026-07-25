@@ -1,0 +1,32 @@
+<%- include('../partials/admin-header') %>
+
+<div class="admin-card" style="max-width:720px;">
+  <form method="POST" action="<%= isEdit ? '/admin/news/' + article.id : '/admin/news' %>" enctype="multipart/form-data">
+    <label for="title">عنوان الخبر</label>
+    <input type="text" name="title" id="title" value="<%= article.title || '' %>" required />
+
+    <label for="summary">ملخص قصير (يظهر في قائمة الأخبار)</label>
+    <textarea name="summary" id="summary" style="min-height:70px;"><%= article.summary || '' %></textarea>
+
+    <label for="body">نص الخبر كامل</label>
+    <textarea name="body" id="body" style="min-height:220px;" required><%= article.body || '' %></textarea>
+
+    <label for="cover_image">صورة الخبر <% if (isEdit) { %>(اتركه فارغًا للاحتفاظ بالصورة الحالية)<% } %></label>
+    <input type="file" name="cover_image" id="cover_image" accept="image/*" />
+    <% if (isEdit && article.cover_image) { %>
+      <img src="<%= article.cover_image %>" style="max-width:220px;border-radius:8px;margin-bottom:16px;" />
+    <% } %>
+
+    <label style="display:flex;align-items:center;gap:8px;font-weight:700;">
+      <input type="checkbox" name="is_published" style="width:auto;margin:0;" <%= (article.is_published === undefined || article.is_published) ? 'checked' : '' %> />
+      نشر الخبر مباشرة
+    </label>
+
+    <button type="submit" class="btn btn-primary" style="margin-top:10px;">
+      <i class="bi bi-check-lg"></i> <%= isEdit ? 'حفظ التعديلات' : 'إضافة الخبر' %>
+    </button>
+    <a href="/admin/news" class="btn" style="border:1px solid var(--line);color:#555;">إلغاء</a>
+  </form>
+</div>
+
+<%- include('../partials/admin-footer') %>

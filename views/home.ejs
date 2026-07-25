@@ -1,0 +1,110 @@
+<%- include('partials/header') %>
+
+<!-- الهيرو -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="hero-eyebrow"><i class="bi bi-broadcast"></i> المنصة الرقمية للخدمات الإلكترونية</span>
+      <h1>مياه نظيفة وصرف صحي آمن... خدمة مستمرة لكل بيت</h1>
+      <p><%= settings.about_short || 'نفخر بأننا إحدى الشركات الرائدة في مجال معالجة مياه الشرب والصرف الصحي، ونعمل باستمرار لتطوير خدماتنا لكل مواطن.' %></p>
+      <div class="hero-actions">
+        <a href="/complaints" class="btn btn-primary"><i class="bi bi-chat-dots"></i> شكاوى ومقترحات</a>
+        <a href="/news" class="btn btn-outline"><i class="bi bi-newspaper"></i> آخر الأخبار</a>
+      </div>
+    </div>
+    <div class="hero-droplets">
+      <span class="droplet d1"></span>
+      <span class="droplet d2"></span>
+      <span class="droplet d3"></span>
+    </div>
+  </div>
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg"><path fill="#fbfaf7" d="M0,32 C240,80 480,0 720,24 C960,48 1200,88 1440,40 L1440,80 L0,80 Z"></path></svg>
+  </div>
+</section>
+
+<!-- آخر الأخبار -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <div><span class="eyebrow">جديد الشركة</span><h2>آخر الأخبار</h2></div>
+      <a href="/news" class="more">كل الأخبار ←</a>
+    </div>
+
+    <% if (news.length === 0) { %>
+      <p>لا توجد أخبار منشورة حاليًا.</p>
+    <% } else { %>
+      <div class="grid grid-3">
+        <% news.forEach(function(item) { %>
+          <a class="card" href="/news/<%= item.slug %>">
+            <div class="card-img" style="background-image:url('<%= item.cover_image || '/img/news-placeholder.jpg' %>')"></div>
+            <div class="card-body">
+              <span class="card-date"><%= new Date(item.published_at).toLocaleDateString('ar-EG', { year:'numeric', month:'long', day:'numeric' }) %></span>
+              <h3 class="card-title"><%= item.title %></h3>
+              <p class="card-summary"><%= (item.summary || '').slice(0, 90) %></p>
+              <span class="card-link">قراءة المزيد ←</span>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<!-- أهم الخدمات -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-title">
+      <div><span class="eyebrow">في متناول يدك</span><h2>أهم الخدمات</h2></div>
+    </div>
+    <div class="grid grid-4">
+      <% services.forEach(function(s) { %>
+        <a class="service-card" href="<%= s.link_url || '#' %>">
+          <div class="service-icon"><i class="bi <%= s.icon || 'bi-droplet' %>"></i></div>
+          <h3><%= s.title %></h3>
+          <p><%= s.description %></p>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- الإحصائيات -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <% stats.forEach(function(s) { %>
+        <div>
+          <div class="stat-value"><%= s.value %></div>
+          <div class="stat-unit"><%= s.unit || '' %></div>
+          <div class="stat-label"><%= s.label %></div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- المناقصات -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <div><span class="eyebrow">فرص عمل مع الشركة</span><h2>أحدث المناقصات</h2></div>
+      <a href="/tenders" class="more">كل المناقصات ←</a>
+    </div>
+    <% if (tenders.length === 0) { %>
+      <p>لا توجد مناقصات منشورة حاليًا.</p>
+    <% } else { %>
+      <% tenders.forEach(function(t) { %>
+        <div class="tender-item">
+          <div>
+            <h3><%= t.title %></h3>
+            <span class="meta"><%= new Date(t.published_at).toLocaleDateString('ar-EG') %></span>
+          </div>
+          <a href="/tenders" class="btn btn-dark btn-sm">التفاصيل</a>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

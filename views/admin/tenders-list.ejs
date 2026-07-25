@@ -1,0 +1,33 @@
+<%- include('../partials/admin-header') %>
+
+<div style="margin-bottom:18px;">
+  <a href="/admin/tenders/new" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> إضافة مناقصة جديدة</a>
+</div>
+
+<div class="admin-card">
+  <table class="admin-table">
+    <thead>
+      <tr><th>العنوان</th><th>تاريخ النشر</th><th>الحالة</th><th>إجراءات</th></tr>
+    </thead>
+    <tbody>
+      <% if (tenders.length === 0) { %>
+        <tr><td colspan="4">لا توجد مناقصات مضافة بعد.</td></tr>
+      <% } %>
+      <% tenders.forEach(function(t) { %>
+        <tr>
+          <td><%= t.title %></td>
+          <td><%= new Date(t.published_at).toLocaleDateString('ar-EG') %></td>
+          <td><span class="badge <%= t.is_published ? 'badge-on' : 'badge-off' %>"><%= t.is_published ? 'منشورة' : 'مسودة' %></span></td>
+          <td class="actions-row">
+            <a href="/admin/tenders/<%= t.id %>/edit" class="btn btn-dark btn-sm">تعديل</a>
+            <form action="/admin/tenders/<%= t.id %>/delete" method="POST" onsubmit="return confirm('متأكد من حذف المناقصة؟');">
+              <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/admin-footer') %>

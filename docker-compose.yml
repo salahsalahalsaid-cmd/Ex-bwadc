@@ -1,0 +1,21 @@
+version: "3.8"
+
+# تشغيل قاعدة بيانات PostgreSQL محليًا بأمر واحد: docker compose up -d
+# (السيرفر Node.js نفسه بيشتغل عادي بره الـ Docker بالأمر: npm start)
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: bwadc_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: bwadc_db
+      POSTGRES_USER: bwadc_user
+      POSTGRES_PASSWORD: change_this_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - bwadc_pgdata:/var/lib/postgresql/data
+
+volumes:
+  bwadc_pgdata:

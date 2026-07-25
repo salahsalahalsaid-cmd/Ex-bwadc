@@ -1,0 +1,27 @@
+<%- include('partials/header') %>
+
+<section class="section">
+  <div class="container" style="max-width: 900px;">
+    <div class="section-title">
+      <div><span class="eyebrow">فرص عمل مع الشركة</span><h2>المناقصات والممارسات</h2></div>
+    </div>
+
+    <% if (tenders.length === 0) { %>
+      <p>لا توجد مناقصات منشورة حاليًا.</p>
+    <% } else { %>
+      <% tenders.forEach(function(t) { %>
+        <div class="tender-item" style="flex-direction:column; align-items:flex-start;">
+          <h3><%= t.title %></h3>
+          <p style="color:#555; font-size:0.92rem; margin: 4px 0 10px;"><%= t.description %></p>
+          <div class="meta" style="display:flex; gap:20px; flex-wrap:wrap;">
+            <% if (t.booklet_price) { %><span><i class="bi bi-cash-coin"></i> قيمة الكراسة: <%= t.booklet_price %> ج.م</span><% } %>
+            <% if (t.initial_insurance) { %><span><i class="bi bi-shield-check"></i> التأمين الابتدائي: <%= t.initial_insurance %> ج.م</span><% } %>
+            <% if (t.opening_session_at) { %><span><i class="bi bi-calendar-event"></i> جلسة الفتح: <%= new Date(t.opening_session_at).toLocaleDateString('ar-EG') %></span><% } %>
+          </div>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

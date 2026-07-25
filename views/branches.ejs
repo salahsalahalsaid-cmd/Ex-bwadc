@@ -1,0 +1,27 @@
+<%- include('partials/header') %>
+
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <div><span class="eyebrow">أقرب فرع ليك</span><h2>فروع الشركة</h2></div>
+    </div>
+
+    <% if (branches.length === 0) { %>
+      <p>لا توجد بيانات فروع مضافة حاليًا.</p>
+    <% } else { %>
+      <div class="grid grid-3">
+        <% branches.forEach(function(b) { %>
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title"><i class="bi bi-geo-alt-fill" style="color:var(--silt-500)"></i> <%= b.name %></h3>
+              <p class="card-summary"><%= b.address || '' %></p>
+              <% if (b.phone) { %><p class="card-summary"><i class="bi bi-telephone"></i> <%= b.phone %></p><% } %>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

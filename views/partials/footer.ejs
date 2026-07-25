@@ -1,0 +1,42 @@
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <div class="brand footer-brand">
+          <span class="brand-icon"><i class="bi bi-droplet-fill"></i></span>
+          <span class="brand-text"><%= settings.site_name || 'شركة مياه الشرب والصرف الصحي' %></span>
+        </div>
+        <p class="footer-about"><%= settings.about_short || '' %></p>
+      </div>
+      <div class="footer-col">
+        <h4>روابط سريعة</h4>
+        <ul>
+          <li><a href="/news">الأخبار</a></li>
+          <li><a href="/tenders">المناقصات</a></li>
+          <li><a href="/branches">الفروع</a></li>
+          <li><a href="/complaints">شكاوى ومقترحات</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>بيانات التواصل</h4>
+        <ul class="footer-contact">
+          <li><i class="bi bi-geo-alt-fill"></i> <%= settings.address || '' %></li>
+          <li><i class="bi bi-telephone-fill"></i> <%= settings.phone || '' %></li>
+          <li><i class="bi bi-printer-fill"></i> <%= settings.fax || '' %></li>
+          <li><i class="bi bi-headset"></i> الخط الساخن: <%= settings.hotline || '125' %></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        &copy; <%= new Date().getFullYear() %> <%= settings.site_name || '' %> - جميع الحقوق محفوظة
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('navToggle').addEventListener('click', function () {
+      document.getElementById('navList').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

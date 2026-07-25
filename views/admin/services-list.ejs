@@ -1,0 +1,58 @@
+<%- include('../partials/admin-header') %>
+
+<div class="admin-card" style="margin-bottom:20px;">
+  <h3 style="margin-top:0;color:var(--nile-900);">إضافة خدمة جديدة</h3>
+  <form method="POST" action="/admin/services">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        <label for="title">اسم الخدمة</label>
+        <input type="text" name="title" id="title" required />
+      </div>
+      <div>
+        <label for="icon">اسم أيقونة Bootstrap Icons (مثال: bi-droplet)</label>
+        <input type="text" name="icon" id="icon" placeholder="bi-droplet" />
+      </div>
+    </div>
+    <label for="description">وصف مختصر</label>
+    <input type="text" name="description" id="description" />
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        <label for="link_url">رابط الخدمة</label>
+        <input type="text" name="link_url" id="link_url" placeholder="/complaints أو رابط خارجي" />
+      </div>
+      <div>
+        <label for="sort_order">ترتيب الظهور</label>
+        <input type="number" name="sort_order" id="sort_order" value="0" />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary"><i class="bi bi-plus-lg"></i> إضافة</button>
+  </form>
+</div>
+
+<div class="admin-card">
+  <table class="admin-table">
+    <thead><tr><th>الخدمة</th><th>الرابط</th><th>الحالة</th><th>إجراءات</th></tr></thead>
+    <tbody>
+      <% if (services.length === 0) { %>
+        <tr><td colspan="4">لا توجد خدمات مضافة بعد.</td></tr>
+      <% } %>
+      <% services.forEach(function(s) { %>
+        <tr>
+          <td><i class="bi <%= s.icon || 'bi-droplet' %>"></i> <%= s.title %></td>
+          <td><%= s.link_url %></td>
+          <td><span class="badge <%= s.is_active ? 'badge-on' : 'badge-off' %>"><%= s.is_active ? 'مفعّلة' : 'موقوفة' %></span></td>
+          <td class="actions-row">
+            <form action="/admin/services/<%= s.id %>/toggle" method="POST">
+              <button type="submit" class="btn btn-dark btn-sm"><%= s.is_active ? 'إيقاف' : 'تفعيل' %></button>
+            </form>
+            <form action="/admin/services/<%= s.id %>/delete" method="POST" onsubmit="return confirm('متأكد من الحذف؟');">
+              <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/admin-footer') %>

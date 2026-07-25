@@ -1,0 +1,35 @@
+<%- include('partials/header') %>
+
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <div><span class="eyebrow">مركز الأخبار</span><h2>كل الأخبار</h2></div>
+    </div>
+
+    <% if (news.length === 0) { %>
+      <p>لا توجد أخبار منشورة حاليًا.</p>
+    <% } else { %>
+      <div class="grid grid-3">
+        <% news.forEach(function(item) { %>
+          <a class="card" href="/news/<%= item.slug %>">
+            <div class="card-img" style="background-image:url('<%= item.cover_image || '/img/news-placeholder.jpg' %>')"></div>
+            <div class="card-body">
+              <span class="card-date"><%= new Date(item.published_at).toLocaleDateString('ar-EG', { year:'numeric', month:'long', day:'numeric' }) %></span>
+              <h3 class="card-title"><%= item.title %></h3>
+              <p class="card-summary"><%= (item.summary || '').slice(0, 90) %></p>
+              <span class="card-link">قراءة المزيد ←</span>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:center; margin-top:36px;">
+        <% for (let p = 1; p <= totalPages; p++) { %>
+          <a href="/news?page=<%= p %>" class="btn btn-sm <%= p === page ? 'btn-primary' : 'btn-outline' %>" style="<%= p === page ? '' : 'color:#13293d;border-color:#e4e1d8;' %>"><%= p %></a>
+        <% } %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

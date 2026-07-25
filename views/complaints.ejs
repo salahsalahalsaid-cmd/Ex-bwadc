@@ -1,0 +1,40 @@
+<%- include('partials/header') %>
+
+<section class="section">
+  <div class="container">
+    <div class="section-title" style="justify-content:center; text-align:center; flex-direction:column;">
+      <span class="eyebrow">صوتك بيوصلنا</span>
+      <h2>شكاوى ومقترحات</h2>
+    </div>
+
+    <div class="form-box">
+      <% if (typeof success !== 'undefined' && success) { %>
+        <div class="alert alert-success"><i class="bi bi-check-circle-fill"></i> تم استلام طلبك بنجاح، وسيتم التواصل معك في أقرب وقت.</div>
+      <% } %>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-error"><i class="bi bi-exclamation-triangle-fill"></i> <%= error %></div>
+      <% } %>
+
+      <form method="POST" action="/complaints">
+        <label for="full_name">الاسم بالكامل</label>
+        <input type="text" name="full_name" id="full_name" required />
+
+        <label for="phone">رقم التليفون</label>
+        <input type="tel" name="phone" id="phone" required />
+
+        <label for="address">العنوان (اختياري)</label>
+        <input type="text" name="address" id="address" />
+
+        <label for="subject">موضوع الشكوى / المقترح</label>
+        <input type="text" name="subject" id="subject" required />
+
+        <label for="message">التفاصيل</label>
+        <textarea name="message" id="message" required></textarea>
+
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">إرسال</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
