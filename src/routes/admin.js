@@ -20,8 +20,10 @@ const upload = multer({
   storage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
   fileFilter: (req, file, cb) => {
-    const allowed = /jpeg|jpg|png|webp|gif/;
-    const ok = allowed.test(path.extname(file.originalname).toLowerCase());
+    const allowedExt = /jpeg|jpg|jfif|png|webp|gif/;
+    const extOk = allowedExt.test(path.extname(file.originalname).toLowerCase());
+    const mimeOk = file.mimetype.startsWith('image/');
+    const ok = extOk && mimeOk;
     cb(ok ? null : new Error('نوع الملف غير مسموح به (يجب أن تكون صورة)'), ok);
   },
 });
