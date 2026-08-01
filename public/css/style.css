@@ -280,6 +280,47 @@ table.admin-table th { background: var(--nile-100); color: var(--nile-900); }
 .login-box { background: #fff; border-radius: var(--radius); padding: 40px; width: 100%; max-width: 380px; }
 .login-box .brand { justify-content: center; margin-bottom: 24px; }
 
+/* -------------------- رحلة الشكوى (Stepper) -------------------- */
+.complaint-flow { margin-bottom: 40px; }
+.complaint-flow-steps {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.complaint-flow-step {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 16px;
+  text-align: center;
+  flex: 1 1 190px;
+  max-width: 220px;
+  transition: 0.2s;
+}
+.complaint-flow-step:hover { border-color: var(--silt-500); box-shadow: 0 10px 24px rgba(7,59,76,0.08); }
+.complaint-flow-step .step-icon {
+  width: 52px; height: 52px; margin: 0 auto 14px;
+  border-radius: 50%;
+  background: var(--nile-100); color: var(--nile-700);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+}
+.complaint-flow-step h4 { font-size: 0.95rem; margin: 0 0 6px; color: var(--nile-900); font-family: 'Cairo', sans-serif; }
+.complaint-flow-step p { font-size: 0.82rem; color: #666; margin: 0; }
+.complaint-flow-arrow {
+  align-self: center;
+  color: var(--silt-500);
+  font-size: 1.3rem;
+  padding-top: 24px;
+}
+@media (max-width: 900px) {
+  .complaint-flow-steps { flex-direction: column; align-items: center; }
+  .complaint-flow-step { max-width: 320px; width: 100%; }
+  .complaint-flow-arrow { transform: rotate(90deg); padding: 4px 0; }
+}
+
 /* -------------------- استجابة الموبايل -------------------- */
 @media (max-width: 900px) {
   .hero-grid { grid-template-columns: 1fr; }
