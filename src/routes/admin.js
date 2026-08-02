@@ -2,30 +2,32 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const multer = require('multer');
-const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const db = require('../db');
 const { requireAdmin } = require('../middleware/auth');
 
 // ---------------------------------------------------------------
-// إعداد رفع الصور (multer) - بتتخزن جوه public/uploads
+// إعداد رفع الصور (multer + Cloudinary) - الصور بتتخزن على Cloudinary
+// عشان تفضل موجودة دايمًا حتى بعد ريستارت/ديبلوي السيرفر على Render
 // ---------------------------------------------------------------
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, path.join(__dirname, '../../public/uploads')),
-  filename: (req, file, cb) => {
-    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, unique + path.extname(file.originalname));
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'bwadc-news',
+    allowed_formats: ['jpg', 'jpeg', 'jfif', 'png', 'webp', 'gif'],
   },
 });
+
 const upload = multer({
   storage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
-  fileFilter: (req, file, cb) => {
-    const allowedExt = /jpeg|jpg|jfif|png|webp|gif/;
-    const extOk = allowedExt.test(path.extname(file.originalname).toLowerCase());
-    const mimeOk = file.mimetype.startsWith('image/');
-    const ok = extOk && mimeOk;
-    cb(ok ? null : new Error('نوع الملف غير مسموح به (يجب أن تكون صورة)'), ok);
-  },
 });
 
 // دالة تحويل النص العربي/الإنجليزي إلى slug صالح للروابط
@@ -128,7 +130,7 @@ router.post('/news', upload.single('cover_image'), async (req, res, next) => {
   try {
     const { title, summary, body, is_published } = req.body;
     const slug = slugify(title);
-    const coverImage = req.file ? '/uploads/' + req.file.filename : null;
+    const coverImage = req.file ? req.file.path : null;
     await db.query(
       `INSERT INTO news (title, slug, summary, body, cover_image, is_published, created_by)
        VALUES ($1, $2, $3, $4, $5, $6, $7)`,
@@ -157,7 +159,7 @@ router.post('/news/:id', upload.single('cover_image'), async (req, res, next) =>
       await db.query(
         `UPDATE news SET title=$1, summary=$2, body=$3, cover_image=$4, is_published=$5, updated_at=now()
          WHERE id=$6`,
-        [title, summary, body, '/uploads/' + req.file.filename, is_published === 'on', req.params.id]
+        [title, summary, body, req.file.path, is_published === 'on', req.params.id]
       );
     } else {
       await db.query(
